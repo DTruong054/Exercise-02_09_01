@@ -15,7 +15,7 @@
         $email = "";
         $hostName = "10.106.15.140";
         $userName = "adminer";
-        $password = "seven-which-26";
+        $passwrd = "seven-which-26";
         $DBConnect = false;
         $DBName = "internships1";
         if (empty($_POST['email'])) {
@@ -71,7 +71,7 @@
 
         if ($errors == 0) {
             //Connect if no errors
-            $DBConnect = mysqli_connect($DBConnect, $userName, $password);
+            $DBConnect = mysqli_connect($DBConnect, $userName, $passwrd);
             if (!$DBConnect) {
                 ++$errors;
                 echo "<p>Unable to connect to database server error code: " . mysqli_connect_error() . "</p>\n";
@@ -86,23 +86,44 @@
 
             $tableName = "interns";
             if ($errors == 0) {
-                $first = stripslashes($_POST['first']);
-                $last = stripslashes($_POST['last']);
-                $SQLString = "INSERT INTO $tableName" . "(first, last, email, password_md5)" . "VALUES('$first', '$last', '$email' '" .  md5($password) . "')";
+                $SQLString = "SELECT count(*) FROM $tableName WHERE email='$email'";
                 $queryResult = mysqli_query($DBConnect, $SQLString);
-                if (!$queryResult) {
-                    echo "<p>Unable to save your registration information error code: " . mysqli_error() . "</p>\n";
+                if ($queryResult) {
+                    $row = mysqli_fetch_row($queryResult);
+                    if ($row[0] > 0) {
+                        ++$errors;
+                        echo "<p>The email address entered (" . htmlentities($email) . ") is already registered.</p>";
+                    }
                 }
             }
-
             if ($errors == 0) {
-                echo "<p>Closing database connection <strong>$DBName</strong> connection.</p>\n";
-                mysqli_close($DBConnect);
-            } else{
-                $internID = mysqli_insert_id($DBConnect);
-            }
+                $first = stripslashes($_POST['first']);
+                $last = stripslashes($_POST['last']);
+                // $SQLString = "INSERT INTO $tableName" . "(first, last, email, password_md5)" . "VALUES('$first', '$last', '$email' '" .  md5($password) . "')";
+                $SQLString = "INSERT INTO $tableName" . 
+                            " (first, last, email, password_md5)" . 
+                            " VALUES('$first', '$last', '$email', " . 
+                            "'" . md5($password) . "')";
+                $queryResult = mysqli_query($DBConnect, $SQLString);
+                if (!$queryResult) {
+                    ++$errors;
+                    echo "<p>Unable to save your registration information error code: " . mysqli_error($DBConnect) . "</p>\n";
+                    echo "<p>Closing database connection <strong>$DBName</strong> connection.</p>\n";
+                } else{
+                    $internID = mysqli_insert_id($DBConnect);
+                }  
+            } 
         }
 
+        if ($errors == 0) {
+            $internName = $first . " " . $last;
+            echo "<p>Thank you $internName. ";
+            echo "Your new Intern ID is <strong>" . $internID . "</strong></p>";
+        }
+
+        if ($DBConnect) {
+            mysqli_close($DBConnect);
+        }
         if ($errors > 0) {
             //If any errors
             echo "Please use your browser's back button to return to the form and fix errors indicated.";
