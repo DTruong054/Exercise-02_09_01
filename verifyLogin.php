@@ -40,14 +40,25 @@
                         "' AND password_md5='" . 
                         md5(stripslashes($_POST['password'])) . "'";
             $queryResult = mysqli_query($DBConnect, $SQLString);
-            if(!$queryResult){
+            if (mysqli_num_rows($queryResult) == 0) {
                 ++$errors;
-                echo "There was a Syntax error";
+                echo "<p>The email/password combination entered was invalid</p>";
+            } else {
+                $row = mysqli_fetch_assoc($queryResult);
+                $internID = $row['internID'];
+                $internName = $row['first'] . " " . $row['last'];
+                mysqli_free_result($queryResult);
+                echo "<p>Welcome back, $internName!</p>\n";
             }
         }
         if ($DBConnect) {
             echo "<p>Closing database <strong>$DBName</strong> connection</p>\n";
             mysqli_close($DBConnect);
+            echo "<form action='opportunities.php' method='post'>";
+            echo "<input type='hidden' name'internID' value='$internID'>\n";
+            echo "<input type='submit' name='submit' value='View Opportunities'>";
+            echo "</form>";
+            
         }
         if ($errors > 0) {
             echo "Please use your browser's back button to return to the form and fix errors indicated.";

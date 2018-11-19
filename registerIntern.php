@@ -39,7 +39,6 @@
         } else {
             //Get rid of slashes and make sure no extra spaces
             $password = stripslashes($_POST['password']);
-            $password = trim($_POST['password']);
         }
         if (empty($_POST['password2'])) {
             //Need to fillout confirmation password
@@ -48,7 +47,6 @@
         } else {
             //Make sure that passwords2 has no slashes or no spaces.
             $password2 = stripslashes($_POST['password2']);
-            $password2 = trim($_POST['password2']);
         }
 
         if (!empty($password) && !empty($password2)) {
@@ -99,11 +97,11 @@
             if ($errors == 0) {
                 $first = stripslashes($_POST['first']);
                 $last = stripslashes($_POST['last']);
-                // $SQLString = "INSERT INTO $tableName" . "(first, last, email, password_md5)" . "VALUES('$first', '$last', '$email' '" .  md5($password) . "')";
-                $SQLString = "INSERT INTO $tableName" . 
-                            " (first, last, email, password_md5)" . 
-                            " VALUES('$first', '$last', '$email', " . 
-                            "'" . md5($password) . "')";
+                $SQLString = "INSERT INTO $tableName" . "(first, last, email, password_md5)" . "VALUES('$first', '$last', '$email', " . "'"  .  md5($password) . "')";
+                // $SQLString = "INSERT INTO $tableName" . 
+                //             " (first, last, email, password_md5)" . 
+                //             " VALUES('$first', '$last', '$email', " . 
+                //             "'" . md5($password) . "')";
                 $queryResult = mysqli_query($DBConnect, $SQLString);
                 if (!$queryResult) {
                     ++$errors;
@@ -123,6 +121,10 @@
 
         if ($DBConnect) {
             mysqli_close($DBConnect);
+            echo "<form action='opportunities.php' method='post'>";
+            echo "<input type='hidden' name'internID' value='$internID'>\n";
+            echo "<input type='submit' name='submit' value='View Opportunities'>";
+            echo "</form>";
         }
         if ($errors > 0) {
             //If any errors
