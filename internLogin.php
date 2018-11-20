@@ -14,23 +14,23 @@
     <h3>New Intern Registration</h3>
     <form action="registerIntern.php" method="post">
         <!-- Register new users -->
-        <p>Enter your name: First <input type="text" name="first"> Last: <input type="text" name="last"></p>
-        <p>Enter your e-mail <input type="text" name="email"></p>
-        <p>Enter a password for your account: <input type="password" name="password"></p>
-        <p>Confirm your password: <input type="password" name="password2"></p>
-        <p><em>(Passwords are case-sensitive and must be at least six characters long.)</em></p>
-        <input type="reset" name="reset" value="Reset Form">
-        <input type="submit" name="register" value="Register">
+        <p>Enter your name: First<input type="text" name="first">Last:<input type="text" name="last"></p>
+        <p>Enter your email address:<input type="text" name="email"></p>
+        <p>Enter a password for your account:<input type="password" name="password"></p>
+        <p>Confirm your password<input type="password" name="password2"></p>
+        <p><em>(Passwords are case-sensitive and must be at least 6 charaters long.)</em></p>
+        <input type="reset" name="reset" value="Reset Registration Form">
+        <input  type="submit" name="register" value="Register">
     </form>
 
     <h3>Returning Intern Logins</h3>
     <form action="verifyLogin.php" method="post">
         <!-- Returning users -->
-        <p>Enter your e-mail <input type="text" name="email"></p>
-        <p>Enter a password for your account: <input type="password" name="password"></p>
-        <p><em>(Passwords are case-sensitive and must be at least six characters long.)</em></p>
+        <p>Enter your email address:<input type="text" name="email"></p>
+        <p>Enter your password for your account:<input type="password" name="password"></p>
+        <p><em>(Passwords are case-sensitive and must be at least 6 charaters long.)</em></p>
         <input type="reset" name="reset" value="Reset Login">
-        <input type="submit" name="register" value="Log In">
+        <input type="submit" name="register" value="Login">
     </form>
 </body>
 </html>

@@ -7,129 +7,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <h1>Collage Internship</h1>
+    <h1>College Intership</h1>
     <h2>Intern Registration</h2>
     <?php
-        //Track errors
-        $errors = 0;
-        $email = "";
-        $hostName = "10.106.15.140";
-        $userName = "adminer";
-        $passwrd = "seven-which-26";
-        $DBConnect = false;
-        $DBName = "internships1";
-        if (empty($_POST['email'])) {
+    $errors = 0;
+    $email = "";
+    $hostname = "localhost";
+    $username = "adminer";
+    $passwd = "seven-which-26";
+    $DBConnect = false;
+    $DBName = "internships1";
+    
+    if (empty($_POST['email'])) {
+        ++$errors;
+        echo "<p>You need to enter an e-mail address</p>\n";
+    }
+    else{
+        $email = stripslashes($_POST['email']);
+        if (preg_match("/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[w-]+)*(\.[A-Za-z]{2,})$/i", $email) == 0) {
             ++$errors;
-            echo "<p>You need to enter an e-mail address.</p>\n";
-        } else {
-            $email = stripslashes($_POST['email']);
-            $email = trim($_POST['email']);
-            if (preg_match("/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[w-]+)*(\.[A-Za-z]{2,})$/i", $email) == 0) {
-                //Test if real email.
-                +$errors;
-                echo "<p>You need to enter a valid email address</p>";
-                $email = "";
+            echo "<p>You need to enter a valid e-mail address.</p>\n";
+            $email = "";
+        }
+        
+    }
+    if (empty($_POST['password'])) {
+        ++$errors;
+        echo "<p>You need to enter a password</p>\n";
+    }
+    else{
+        $password = stripslashes($_POST['password']);
+        }
+        
+    if (empty($_POST['password2'])) {
+        ++$errors;
+        echo "<p>You need to Confirm password</p>\n";
+        }
+    else{
+        $password2 = stripslashes($_POST['password2']);
+        }
+        if (!empty($password) && !empty($password2)) {
+            if (strlen($password) < 6) {
+                ++$errors;
+                echo "<p>The password is too short</p>\n";
+                $password = "";
+                $password2 = "";
+            }
+            if ($password <> $password2) {
+                ++$errors;
+                echo "<p>The password do not match</p>\n";
+                $password = "";
+                $password2 = "";
             }
         }
         
-        if (empty($_POST['password'])) {
-            //if user has no password
-            ++$errors;
-            echo "<p>You need to enter a password.</p>\n";
-        } else {
-            //Get rid of slashes and make sure no extra spaces
-            $password = stripslashes($_POST['password']);
-        }
-        if (empty($_POST['password2'])) {
-            //Need to fillout confirmation password
-            ++$errors;
-            echo "<p>You need to enter a confirmation password.</p>\n";
-        } else {
-            //Make sure that passwords2 has no slashes or no spaces.
-            $password2 = stripslashes($_POST['password2']);
-        }
-
-        if (!empty($password) && !empty($password2)) {
-            if (strlen($password) < 6) {
-                //Can't have less then 6 characters
-                ++$errors;
-                echo "<p>The password is too short.</p>";
-                $password = "";
-                $password2 = "";
-            }
-
-            if ($password <> $password2) {
-                //Passwords need to match or else this...
-                ++$errors;
-                echo "<p>The password don't match.</p>";
-                $password = "";
-                $password2 = "";
-            }
-        }
-
         if ($errors == 0) {
-            //Connect if no errors
-            $DBConnect = mysqli_connect($DBConnect, $userName, $passwrd);
+            $DBConnect = mysqli_connect($hostname, $username, $passwd);
             if (!$DBConnect) {
                 ++$errors;
-                echo "<p>Unable to connect to database server error code: " . mysqli_connect_error() . "</p>\n";
-            } else {
-                //Select the database
+                echo "<p>unable to connect to database server error code: " . mysqli_connect_error() . "</p>\n";
+            }
+            else {
                 $result = mysqli_select_db($DBConnect, $DBName);
                 if (!$result) {
                     ++$errors;
-                    echo "<p>Unable to select the database <strong>$DBName</strong> error code: " . mysqli_error() . "</p>\n";
+                    echo "<p>unable to select the database \"$DBName\" error code: " . mysqli_connect_error() . "</p>\n";
+                } else {
+                    
                 }
+                
+                
             }
-
-            $tableName = "interns";
+            $TableName = "interns";
             if ($errors == 0) {
-                $SQLString = "SELECT count(*) FROM $tableName WHERE email='$email'";
-                $queryResult = mysqli_query($DBConnect, $SQLString);
+                $SQLstring = "SELECT count(*) FROM $TableName" . 
+                " WHERE email='$email'";
+                $queryResult = mysqli_query($DBConnect, $SQLstring);
                 if ($queryResult) {
                     $row = mysqli_fetch_row($queryResult);
                     if ($row[0] > 0) {
                         ++$errors;
-                        echo "<p>The email address entered (" . htmlentities($email) . ") is already registered.</p>";
+                        echo "<p>The e-mail address entered (" . htmlentities($email) . ") is already registered.</p>\n";
                     }
                 }
             }
             if ($errors == 0) {
                 $first = stripslashes($_POST['first']);
                 $last = stripslashes($_POST['last']);
-                $SQLString = "INSERT INTO $tableName" . "(first, last, email, password_md5)" . "VALUES('$first', '$last', '$email', " . "'"  .  md5($password) . "')";
-                // $SQLString = "INSERT INTO $tableName" . 
-                //             " (first, last, email, password_md5)" . 
-                //             " VALUES('$first', '$last', '$email', " . 
-                //             "'" . md5($password) . "')";
-                $queryResult = mysqli_query($DBConnect, $SQLString);
+                $SQLstring = "INSERT INTO $TableName" .
+                " (first, last, email, password_md5)" .
+                " VALUES('$first', '$last', '$email', " . 
+                "'" . md5($password) . "')";
+                $queryResult = mysqli_query($DBConnect, $SQLstring);
                 if (!$queryResult) {
                     ++$errors;
-                    echo "<p>Unable to save your registration information error code: " . mysqli_error($DBConnect) . "</p>\n";
-                    echo "<p>Closing database connection <strong>$DBName</strong> connection.</p>\n";
-                } else{
+                    echo "<p>unable to save your registration error code: " . mysqli_error($DBConnect) . "</p>\n";
+                }
+                else {
                     $internID = mysqli_insert_id($DBConnect);
-                }  
-            } 
+                }
+               //legasy contrast
+            }
         }
-
         if ($errors == 0) {
             $internName = $first . " " . $last;
-            echo "<p>Thank you $internName. ";
-            echo "Your new Intern ID is <strong>" . $internID . "</strong></p>";
+            echo "<p>Thank you, $internName. " . "Your new intern ID is <strong>" . 
+                $internID . "</strong>.</p>\n";
         }
-
         if ($DBConnect) {
+            echo "<p>closing Database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
-            echo "<form action='opportunities.php' method='post'>";
-            echo "<input type='hidden' name'internID' value='$internID'>\n";
-            echo "<input type='submit' name='submit' value='View Opportunities'>";
-            echo "</form>";
+            echo "<form action='AvailableOpportunities.php' method='post'>\n";
+            echo "<input type='hidden' name='internID' value='$internID'>\n";
+            echo "<p><input type='submit' name='submit' value='View Available Opportunities'></p>";
+            echo "</form>\n";
         }
         if ($errors > 0) {
-            //If any errors
-            echo "Please use your browser's back button to return to the form and fix errors indicated.";
+            echo "<p>Please use your browser's BACK button to return to the form and fix the errors indicated</p>";
         }
     ?>
-</body>
+    </body>
 </html>
