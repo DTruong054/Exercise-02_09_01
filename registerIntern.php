@@ -107,7 +107,7 @@
         if ($DBConnect) {
             echo "closing database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
-            echo "<form action='AvailableOpportunities.php' method='POST'>\n";
+            echo "<form action='opportunities.php' method='POST'>\n";
             echo "<input type='hidden' name='internID' value='$internID'>\n";
             echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
             echo "</form>";

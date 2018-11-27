@@ -95,17 +95,44 @@
                 }
                 mysqli_free_result($queryResult);
             }
-            echo "<pre>\n";
-            print_r($opportunities);
-            echo "</pre>\n";
         }
         if($DBConnect) {
             echo "<p>Closing database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
         }
         echo "<table border='1' width='100%'>\n";
+        echo "<tr>\n";
+        echo "<th style='background-color: cyan'>Company</th>\n";
+        echo "<th style='background-color: cyan'>City</th>\n";
+        echo "<th style='background-color: cyan'>Start Date</th>\n";
+        echo "<th style='background-color: cyan'>End Date</th>\n";
+        echo "<th style='background-color: cyan'>Position</th>\n";
+        echo "<th style='background-color: cyan'>Description</th>\n";
+        echo "<th style='background-color: cyan'>Status</th>\n";
+        echo "</tr>\n";
+        foreach ($opportunities as $opportunity) {
+            if (!in_array($opportunity['opportunityID'], $assignedOpportunities)) {
+                echo "<tr>\n";
+                echo "<td>" . htmlentities($opportunity['company']) . "</td>\n";
+                echo "<td>" . htmlentities($opportunity['city']) . "</td>\n";
+                echo "<td>" . htmlentities($opportunity['startDate']) . "</td>\n";
+                echo "<td>" . htmlentities($opportunity['endDate']) . "</td>\n";
+                echo "<td>" . htmlentities($opportunity['position']) . "</td>\n";
+                echo "<td>" . htmlentities($opportunity['description']) . "</td>\n";
+                echo "<td>\n";
+                if (in_array($opportunity['opportunityID'], $selectedOpportunities)) {
+                    echo "Selected";
+                } else if ($approvedOpportunities > 0){
+                    echo "Open";
+                } else {
+                    echo "<a href='requestOpportunity.php?" . "internID=$internID&" . "opportunityID=" . $opportunity['opportunityID'] . "'>Available</a>";
+                }
+                echo "</td>\n";
+                echo "</tr>\n";
+            }
+        }
         echo "</table>\n";
-        echo "<p><a href='InternLogin.php'>Log Out</a></p>\n";
+        echo "<p><a href='internLogin.php'>Log Out</a></p>\n";
     ?>
 </body>
 </html>

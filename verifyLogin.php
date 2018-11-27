@@ -49,10 +49,11 @@
         if ($DBConnect) {
             echo "closing database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
-            echo "<form action='AvailableOpportunities.php' method='POST'>\n";
-            echo "<input type='hidden' name='internID' value='$internID'>\n";
-            echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
-            echo "</form>";
+            // echo "<form action='opportunities.php' method='POST'>\n";
+            // echo "<input type='hidden' name='internID' value='$internID'>\n";
+            // echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
+            // echo "</form>";
+            echo "<p><a href='opportunities.php?" . "internID=$internID'>Available Opportunities</a></p>";
         }
         if ($errors > 0) {
             echo "<p>Please use your browsers BACK button to return to the form and fix the errors indicated</p>";
