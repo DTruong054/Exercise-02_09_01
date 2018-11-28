@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Collage Internships</h1>
-    <h2>Avalible Opportunities</h2>
+    <h2>Available Opportunities</h2>
     <?php
         if(isset($_REQUEST['internID'])) {
             $internID = $_REQUEST['internID'];
