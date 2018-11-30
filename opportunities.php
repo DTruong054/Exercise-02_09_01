@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    echo "Session id: " . session_id() . "<br>\n";
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +14,13 @@
     <h1>Collage Internships</h1>
     <h2>Available Opportunities</h2>
     <?php
-        if(isset($_REQUEST['internID'])) {
-            $internID = $_REQUEST['internID'];
-        } else {
-            $internID = -1;
-        }
-        // debug
-        echo "\$internID: $internID\n";
+        // if(isset($_REQUEST['internID'])) {
+        //     $internID = $_REQUEST['internID'];
+        // } else {
+        //     $internID = -1;
+        // }
+        // // debug
+        // echo "\$internID: $internID\n";
         if(isset($_COOKIE['LastRequestDate'])) {
             $LastRequestDate = urldecode($_COOKIE['LastRequestDate']);
         } else {
@@ -43,7 +47,7 @@
         }
         $TableName = "interns";
         if($errors == 0) {
-            $SQLstring = "SELECT * FROM $TableName" . " WHERE internID='$internID'";
+            $SQLstring = "SELECT * FROM $TableName" . " WHERE internID='" . $_SESSION['internID'] ."'";
             $queryResult = mysqli_query($DBConnect, $SQLstring);
             if(!$queryResult) {
                 ++$errors;
@@ -65,7 +69,7 @@
         echo "\$internName: $internName";
         $TableName = "assigned_opportunities";
         if ($errors == 0) {
-            $SQLstring = "SELECT COUNT(opportunityID)" . " FROM $TableName" . " WHERE internID='$internID'" . " AND dateApproved IS NOT NULL";
+            $SQLstring = "SELECT COUNT(opportunityID)" . " FROM $TableName" . " WHERE internID='" . $_SESSION['internID']."'" . " AND dateApproved IS NOT NULL";
             $queryResult = mysqli_query($DBConnect, $SQLstring);
             if (mysqli_num_rows($queryResult) > 0) {
                 $row = mysqli_fetch_row($queryResult);
@@ -73,7 +77,7 @@
                 mysqli_free_result($queryResult);
             }
             $selectedOpportunities = array();
-            $SQLstring = "SELECT opportunityID FROM $TableName" . " WHERE internID='$internID'";
+            $SQLstring = "SELECT opportunityID FROM $TableName" . " WHERE internID='" . $_SESSION['internID']."'";
             $queryResult = mysqli_query($DBConnect, $SQLstring);
             if (mysqli_num_rows($queryResult) > 0) {
                 while (($row = mysqli_fetch_row($queryResult)) != false) {
@@ -133,7 +137,7 @@
                 } else if ($approvedOpportunities > 0){
                     echo "Open";
                 } else {
-                    echo "<a href='requestOpportunity.php?" . "internID=$internID&" . "opportunityID=" . $opportunity['opportunityID'] . "'>Available</a>";
+                    echo "<a href='requestOpportunity.php?" . "PHPSESSID=" . session_id() ."&" . "opportunityID=" . $opportunity['opportunityID'] . "'>Available</a>";
                 }
                 echo "</td>\n";
                 echo "</tr>\n";

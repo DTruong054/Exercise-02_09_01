@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    echo "Session ID: " . session_id() . "<br>";
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +44,8 @@
             } 
             else {
                 $row = mysqli_fetch_assoc($queryResult);
-                $internID = $row['internID'];
+                // $internID = $row['internID'];
+                $_SESSION['internID'] = $row['internID'];
                 $internName = $row['first'] . " " . $row["last"];
                 mysqli_free_result($queryResult);
                 echo "<p>Welcome back, $internName!</p>";
@@ -53,7 +58,8 @@
             // echo "<input type='hidden' name='internID' value='$internID'>\n";
             // echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
             // echo "</form>";
-            echo "<p><a href='opportunities.php?" . "internID=$internID'>Available Opportunities</a></p>";
+            // echo "<p><a href='opportunities.php?" . "internID=$internID'>Available Opportunities</a></p>";
+            echo "<p><a href='opportunities.php?" . "PHPSESSID=" . session_id() ."'>Available Opportunities</a></p>";
         }
         if ($errors > 0) {
             echo "<p>Please use your browsers BACK button to return to the form and fix the errors indicated</p>";

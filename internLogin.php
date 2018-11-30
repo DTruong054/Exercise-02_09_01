@@ -1,6 +1,7 @@
 <?php
     session_start();
-    echo "Session id: " . session_id() . "<br>\n";
+    $_SESSION = array();
+    session_destroy();
 ?>
 <!DOCTYPE html>
 <html>

@@ -87,7 +87,7 @@
                 }
                 else {
                     // $internID = mysqli_insert_id($DBConnect);
-                    $_SESSION['internID'] = mysqli_insert_id();
+                    $_SESSION['internID'] = mysqli_insert_id($DBConnect);
                 }   
             }
         }
@@ -97,7 +97,8 @@
             $body .= "Your new intern ID is <strong>$_SESSION[internID]</strong>.</p>\n";
         }
         if ($DBConnect) {
-            setcookie("internID", "$internID");
+            // setcookie("internID", "$internID");
+            setcookie($_SESSION['internID']);
             $body .= "closing database \"$DBName\" connection.</p>\n";
             $body .= "<p><a href='opportunities.php?'PHPSESSID=" .  session_id() . ">View Available Opportunities</a></p>";
             mysqli_close($DBConnect);
