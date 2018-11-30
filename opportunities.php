@@ -17,6 +17,11 @@
         }
         // debug
         echo "\$internID: $internID\n";
+        if(isset($_COOKIE['LastRequestDate'])) {
+            $LastRequestDate = urldecode($_COOKIE['LastRequestDate']);
+        } else {
+            $LastRequestDate = "";
+        }
         $errors = 0;
         $hostname = "localhost";
         $username = "adminer";
@@ -99,6 +104,9 @@
         if($DBConnect) {
             echo "<p>Closing database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
+        }
+        if (!empty($LastRequestDate)) {
+            echo "<p>You last requested an internship opportunity on $LastRequestDate.</p>\n";
         }
         echo "<table border='1' width='100%'>\n";
         echo "<tr>\n";
