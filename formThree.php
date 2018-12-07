@@ -1,3 +1,23 @@
+<?php
+    if (isset($_POST['submit'])) {
+        $_SESSION['session'] = TRUE;
+        $cookie_name = "TheGreaterDepression";
+        $cookie_value1 = $_POST['name'] . "<br>\n";
+        $cookie_value2 = $_POST['contact'] . "<br>\n";
+        $cookie_value3 = $_POST['company'];
+        echo "Name: $cookie_value1";
+        echo "Contact: $cookie_value2";
+        // echo "Company Info: $cookie_value3";
+        setcookie($cookie_name, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
+        setcookie($cookie_name, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
+        if(!isset($_COOKIE[$cookie_name])) {
+            echo "Cookie named '" . $cookie_name . "' is not set!";
+        } else {
+            echo "Cookie '" . $cookie_name . "' is set!<br>";
+            echo "Value is: " . $_COOKIE[$cookie_name];
+        }
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +28,8 @@
 </head>
 <body>
     <form action="formThree.php" method="post">
-        <p><input type="text" name="seminars"></p>
+        <p>Choose Seminars:<input type="text" name="seminars"></p>
+        <input type="submit" value="Submit" name="submit">
     </form>
 </body>
 </html>
