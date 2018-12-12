@@ -10,6 +10,7 @@
         echo "Company Info: $cookie_value3";
         setcookie($cookie_name, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
         setcookie($cookie_name, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
+        setcookie($cookie_name, $cookie_value3, time() + (86400 * 30), "/"); // 86400 = 1 day
         if(!isset($_COOKIE[$cookie_name])) {
             echo "Cookie named '" . $cookie_name . "' is not set!";
         } else {
