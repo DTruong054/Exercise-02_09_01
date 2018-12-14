@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    
+    <?php
+        echo $_POST['name'];
+        echo $_POST['contact'];
+        echo $_POST['company'];
+        echo $_POST['seminars'];
+    ?>
 </body>
 </html>

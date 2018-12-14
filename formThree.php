@@ -62,7 +62,7 @@
 </head>
 <body>
     <div class="middle">
-    <form action="formThree.php" method="post">
+    <form action="finalForm.php" method="post">
         <p><input type="text" name="seminars" placeholder="Choose Seminars:" class="placeholder"</p>
         <input type="submit" value="&#8594;" name="submit" id="submit">
     </form>

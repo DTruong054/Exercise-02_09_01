@@ -11,13 +11,9 @@
         setcookie($cookie_name, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
         setcookie($cookie_name, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
         setcookie($cookie_name, $cookie_value3, time() + (86400 * 30), "/"); // 86400 = 1 day
-        if(!isset($_COOKIE[$cookie_name])) {
-            echo "Cookie named '" . $cookie_name . "' is not set!";
-        } else {
-            echo "Cookie '" . $cookie_name . "' is set!<br>";
-            echo "Value is: " . $_COOKIE[$cookie_name];
-        }
     }
+    echo $_COOKIE['name'];
+    echo $_COOKIE['contact'];
 ?>
 <!DOCTYPE html>
 <html>
