@@ -1,19 +1,32 @@
 <?php
+    session_start();
+    // if (isset($_POST['submit'])) {
+    //     $_SESSION['session'] = TRUE;
+    //     $cookie_name = "TheGreaterDepression";
+    //     $cookie_value1 = $_POST['name'] . "<br>\n";
+    //     $cookie_value2 = $_POST['contact'] . "<br>\n";
+    //     $cookie_value3 = $_POST['company'] . "<br>\n";
+    //     $_SESSION['name'] = $_POST['name'];
+    //     $_SESSION['contact'] = $_POST['contact'];
+    //     $_SESSION['company'] = $_POST['company'];
+    //     echo "Name: $_SESSION['name']";
+    //     echo "Contact: $_SESSION['contact']";
+    //     echo "Company Info: $_SESSION['company']";
+    //     setcookie($cookie_name, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
+    //     setcookie($cookie_name, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
+    //     setcookie($cookie_name, $cookie_value3, time() + (86400 * 30), "/"); // 86400 = 1 day
+    // }
     if (isset($_POST['submit'])) {
-        $_SESSION['session'] = TRUE;
-        $cookie_name = "TheGreaterDepression";
-        $cookie_value1 = $_POST['name'] . "<br>\n";
-        $cookie_value2 = $_POST['contact'] . "<br>\n";
-        $cookie_value3 = $_REQUEST['company'] . "<br>\n";
-        echo "Name: $cookie_value1";
-        echo "Contact: $cookie_value2";
-        echo "Company Info: $cookie_value3";
-        setcookie($cookie_name, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
-        setcookie($cookie_name, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
-        setcookie($cookie_name, $cookie_value3, time() + (86400 * 30), "/"); // 86400 = 1 day
+        //On submit...
+        $_SESSION['name'] = $_POST['name'];
+        $_SESSION['contact'] = $_POST['contact'];
+        //Variables
+        $name = $_SESSION['name'];
+        $contact = $_SESSION['contact'];
+        //Debug code
+        echo "Name: $name<br>";
+        echo "Contact: $contact<br>";
     }
-    echo $_COOKIE['name'];
-    echo $_COOKIE['contact'];
 ?>
 <!DOCTYPE html>
 <html>

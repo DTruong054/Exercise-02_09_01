@@ -1,3 +1,18 @@
+<?php
+//Starting session
+    session_start();
+    if (isset($_POST['submit'])) {
+        //Once submit...
+        $_SESSION['name'] = $_POST['name'];
+        $_SESSION['contact'] = $_POST['contact'];
+        $name = $_SESSION['name'];
+        $contact = $_SESSION['contact'];
+    }
+?>
+<?php
+    // session_unset();
+    // session_destroy();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,9 +75,12 @@
 <body>
     <div class="middle">
     <form action="formTwo.php" method="post">
-        <p><input type="text" name="name" placeholder="Name" class="placeholder"></p>
+        <p><input type="text" name="name" placeholder="Name" class="placeholder" value="<?php if (isset($_SESSION['name'])) {echo "$name";}?>"></p>
         <p><input type="text" name="contact" placeholder="Contact" class="placeholder"></p>
         <input type="submit" value="&#8594;" name="submit" id="submit">
     </form>
     </div>
 </html>
+<?php
+    
+?>

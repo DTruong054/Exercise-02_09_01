@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +11,20 @@
 </head>
 <body>
     <?php
-        echo $_POST['name'];
-        echo $_POST['contact'];
-        echo $_POST['company'];
-        echo $_POST['seminars'];
+    //Setting sessions
+        $_SESSION['seminars'] = $_POST['seminars'];
+        $name = $_SESSION['name'];
+        $contact = $_SESSION['contact'];
+        $company = $_SESSION['company'];
+        $seminars = $_SESSION['seminars'];
+        //Display all info
+        echo "Name: $name<br>";
+        echo "Contact: $contact<br>";
+        echo "Company Info: $company<br>";
+        echo "Seminars: $seminars";
+        echo "<p><a href='formOne.php'>Change Name/Contact</a></p>";
+        echo "<p><a href='formTwo.php'>Change CompanyInfo</a></p>";
+        echo "<p><a href='formThree.php'>Change Seminars</a></p>";
     ?>
 </body>
 </html>
